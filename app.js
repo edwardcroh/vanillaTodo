@@ -1,38 +1,53 @@
-let storage = {
-  asdf: 'Active'
-};
-// let input = document.querySelector("input[type = 'text']");
-let ul = document.querySelector('ul');
-let button = document.querySelector('button');
+// Global Variables
+const ul = document.getElementById('list');
+const add = document.getElementById('add');
 
-button.addEventListener('click', () => {
+// Add Task
+const addToList = targetUi => {
+  let newTask = document.getElementById('text').value;
   let li = document.createElement('li');
-  let spanEl = document.createElement('span');
-  let newTodo = input.value;
-  console.log('this is the newTodo:', newTodo);
-  if (!checkIfExists(newTodo)) {
-    ul.appendChild(li).append(spanEl, newTodo);
-    addToList(newTodo);
-  } else {
-    console.log('Add a new task');
+  let textNode = document.createTextNode(newTask + '');
+  let removeButton = document.createElement('button');
+  document.getElementById('text').value = '';
+
+  if (newTask.length === 0) {
+    alert('Enter a task');
     return;
   }
-});
 
-const addToList = val => {
-  for (let item in storage) {
-    if (item !== val) {
-      storage[val] = 'Active';
-      console.log('Added to list!');
-      return;
-    }
-  }
-  console.log('Already exists!');
-  return;
+  removeButton.innerHTML = 'Completed';
+  removeButton.setAttribute('onclick', 'removeMe(this)');
+
+  li.className = 'collection-task';
+  li.appendChild(textNode);
+  li.appendChild(removeButton);
+
+  targetUi.appendChild(li);
 };
 
-const checkIfExists = val => {
-  for (let item in storage) {
-    val === item.toString() ? true : false;
+add.onclick = () => {
+  addToList(ul);
+};
+
+// Remove Task
+removeMe = item => {
+  let parent = item.parentElement;
+  parent.parentElement.removeChild(parent);
+};
+
+// Toggle
+toggleStatus = () => {};
+
+// Remove All Button
+const removeAll = document.getElementById('removeAll');
+removeAll.onclick = function() {
+  ul.innerHTML = '';
+};
+
+// Filter List
+filterList = () => {
+  let list = ul.querySelectorAll('li.collection-task');
+  for (let i = 0; i < list.legnth; i++) {
+    console.log('hello!!! from a list');
   }
 };
